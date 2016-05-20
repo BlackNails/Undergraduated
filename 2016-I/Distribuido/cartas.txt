@@ -1,0 +1,115 @@
+package problema;
+import x10.util.Random;
+import x10.io.Console;
+import x10.array.*;
+
+public class cartas {
+	static def decir(n:Long){
+		return n;
+	}
+	public static def main(argv:Rail[String]){
+		val r = new Random();
+		//var valor:long = r.nextLong(52);
+		val a = new Array_1[long](10);
+		val b = new Array_1[long](10);
+		val c = new Array_1[long](10);
+		val d = new Array_1[long](10);
+		val e = new Array_1[long](10);
+		var i:long;
+		//var j:long;
+		//var carta:long;
+		var gano:long = 0;
+		val p1 = here;
+		val c1 = Clock.make();
+		
+		for(i = 0 ; i < 10 ; i++){
+			a(i) = r.nextLong(13)+1;
+			b(i) = r.nextLong(13)+1;
+			c(i) = r.nextLong(13)+1;
+			d(i) = r.nextLong(13)+1;
+			e(i) = r.nextLong(13)+1;
+		}	
+
+		
+			async clocked(c1){
+				var j:long;
+				var carta:long;
+				for(j = 0 ; j < 10 ; j++){
+					carta = r.nextLong(13)+1;
+					Console.OUT.println("tirada " + j + ": " +a(j)+" ");
+					if(decir(a(j))==carta){
+						Console.OUT.println("Gano a");
+						break;
+						//gano = 1;
+					}
+					Clock.advanceAll();
+				}
+				
+			}
+			
+			async clocked(c1){
+				var j:long;
+				var carta:long;
+				for(j = 0 ; j < 10 ; j++){
+					carta = r.nextLong(13)+1;
+					Console.OUT.println("tirada " + j + ": " +b(j)+" ");
+					if(decir(b(j))==carta){
+						Console.OUT.println("Gano b");
+						break;	
+					}
+					Clock.advanceAll();
+				}
+				
+			}
+			
+			async clocked(c1){
+				var j:long;
+				var carta:long;
+				for(j = 0 ; j < 10 ; j++){
+					carta = r.nextLong(13)+1;
+					Console.OUT.println("tirada " + j + ": " +c(j)+" ");
+					if(decir(c(j))==carta){
+						Console.OUT.println("Gano c");
+						break;	
+					}
+					Clock.advanceAll();
+				}
+				
+			}
+			
+			async clocked(c1){
+
+				var j:long;
+				var carta:long;
+				for(j = 0 ; j < 10 ; j++){
+					carta = r.nextLong(13)+1;
+					Console.OUT.println("tirada " + j + ": " +d(j)+" ");
+					if(decir(d(j))==carta){
+						Console.OUT.println("Gano d");
+						break;	
+					}
+					Clock.advanceAll();
+				}
+				
+			}
+			
+			async clocked(c1){
+
+				var j:long;
+				var carta:long;
+				for(j = 0 ; j < 10 ; j++){
+					carta = r.nextLong(13)+1;
+
+					Console.OUT.println("tirada " + j + ": " +e(j)+" ");
+					if(decir(e(j))==carta){
+						Console.OUT.println("Gano e");
+						break;	
+					}
+					Clock.advanceAll();
+				}
+				
+			}
+		
+		
+}
+}

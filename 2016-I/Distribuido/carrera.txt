@@ -1,0 +1,102 @@
+import x10.array.*;
+import x10.util.Random;
+import x10.util.Timer;
+
+public class carrera {
+	
+	/*Posiciones de cada auto*/
+	static val posicion = new Array_1[Long](8);
+	/*Velocidades de cada auto*/
+	static val velocidades = new Array_1[Long](8);
+	
+	
+	public static def main(args:Rail[String]){
+	//Console.OUT.println(" asdas");
+	val r = new Random();
+	/*Inicializo velocidades*/
+	for(var i:Long = 0 ; i < 8 ; i++)
+		velocidades(i)=r.nextLong(100)+100;
+	
+	var limite:Long;
+	limite = 0;
+	
+	var max:Long = velocidades(0);
+	
+	for(var i:Long = 0 ; i < 8 ; i++)
+		if(max <= velocidades(i)){
+			max = velocidades(i);
+			limite = i;
+		}
+	//Console.OUT.println("max : "+ max + " limite : " + limite);
+	
+	//limite = 0;
+	
+		finish async{
+			val c1 = Clock.make();
+			async clocked(c1){
+				//Controla quien gana
+				for(var j:Long = 0 ; posicion(limite) < 1500;){
+				posicion(0)+=velocidades(0);
+				Console.OUT.println( "1: " +posicion(0));
+				Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+				posicion(1)+=velocidades(1);
+				Console.OUT.println( "2: " +posicion(1));
+				Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+				posicion(2)+=velocidades(2);
+				Console.OUT.println( "3: " +posicion(2));
+				Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+				posicion(3)+=velocidades(3);
+				Console.OUT.println( "4: " +posicion(3));
+				Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+					posicion(4)+=velocidades(4);
+					Console.OUT.println( "5: " +posicion(4));
+					Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+					posicion(5)+=velocidades(5);
+					Console.OUT.println( "6: " +posicion(5));
+					Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+					posicion(6)+=velocidades(6);
+					Console.OUT.println( "7: " +posicion(6));
+					Clock.advanceAll();
+				}
+			}
+			async clocked(c1){
+				for(var j:Long = 0 ; posicion(limite)<1500;){
+					posicion(7)+=velocidades(7);
+					Console.OUT.println( "8: " +posicion(7));
+					Clock.advanceAll();
+				}
+			}
+			
+		}
+	
+	
+	
+	for(var i:Long = 0 ; i < 8 ; i++)
+		Console.OUT.println("Posicion final "+i +": "+posicion(i));
+	Console.OUT.println("El ganador es el auto  " + limite + " Velocidad: "+velocidades(limite));
+	}
+}

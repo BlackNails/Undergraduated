@@ -1,0 +1,140 @@
+package examen;
+import x10.array.*;
+import x10.util.Random;
+import x10.util.Timer;
+
+public class sensores {
+	
+	/*Funcion que me devuelve el indice UV de un lugar*/
+	public static def indiceU(){
+		val pArray = new Array_1[Long](6);
+		val r = new Random();
+		var indice:Long = r.nextLong(6);
+		if(indice == 0)
+			indice = r.nextLong(3);
+		/*Aqui se le asigna probabilidad de 2/6*/
+		/*if(indice == 1)
+			indice = r.nextLong(3)+3;*/
+		if(indice == 2 || indice == 1)
+			indice = r.nextLong(3) + 3;
+		/*-------------------------------------*/
+		if(indice == 3)
+			indice = r.nextLong(3) + 6;
+		if(indice == 4)
+			indice = r.nextLong(3) + 9;
+		if(indice == 5)
+			indice = r.nextLong(3) + 12;
+		
+		return indice;
+	}
+	
+	/*Funcion para evaluar el riesgo del resultado*/
+	
+	public static def evalRisk(n:Long){
+		if(n >= 0 && n<= 2)
+			Console.OUT.println(" Riesgo Bajo");
+		if(n >= 3 && n<= 5)
+			Console.OUT.println(" Riesgo Moderado");
+		if(n >= 6 && n<= 8)
+			Console.OUT.println(" Riesgo Alto");
+		if(n >= 9 && n<= 11)
+			Console.OUT.println(" Riesgo Muy Alto");
+		if(n >= 12 && n<= 14)
+			Console.OUT.println(" Riesgo Extremo");
+	}
+	
+	static val array1 = new Array_1[Long](480);//zona1
+	static val array2 = new Array_1[Long](480);//zona2
+	static val array3 = new Array_1[Long](480);//zona3
+	static val array4 = new Array_1[Long](480);//zona4
+	
+	/*Se guardan las mediciones*/
+	
+	static val total  = new Array_2[Long](4,480);
+	
+	
+	static val r = new Random();
+	//promedio de la zona
+	
+	public static def main(args:Rail[String]){
+		
+		var promedio:Long=0;
+		
+		Console.OUT.println("Se inicio la medida a las 10 am.");
+		
+		/* Paso 2*/
+		/*Finish es para que primero terminen de calcular*/
+		finish async{
+			val c1 = Clock.make();
+			/*Las mediciones se hacen simultaneamente*/
+			async clocked(c1){
+				for(var i:Long = 0 ; i < 480 ; i++){
+					array1(i) = indiceU();// se mide en la zona1
+					Console.OUT.println("Indice UV Zona 1: " + array1(i));
+					System.sleep(10);
+					Clock.advanceAll();
+					
+				}
+				
+			}
+			
+			async clocked(c1){
+				
+				for(var i:Long = 0 ; i < 480 ; i++){
+					array2(i) = indiceU();// se mide en la zona1
+					Console.OUT.println("Indice UV Zona 2: " + array2(i));
+					System.sleep(10);
+					Clock.advanceAll();
+					
+				}
+			}
+			
+			async clocked(c1){
+				for(var i:Long = 0 ; i < 480 ; i++){
+					array3(i) = indiceU();// se mide en la zona1
+					Console.OUT.println("Indice UV Zona 3: " + array3(i));
+					System.sleep(10);
+					Clock.advanceAll();
+				}
+			}
+			
+			async clocked(c1){
+				for(var i:Long = 0 ; i < 480 ; i++){
+					array4(i) = indiceU();// se mide en la zona1
+					Console.OUT.println("Indice UV Zona 4: " + array4(i));
+					System.sleep(10);
+					Clock.advanceAll();
+				}
+			}
+		}
+		
+		Console.OUT.println("Se terminaron de leer los datos a las 2pm");
+		
+		/*Paso 3*/
+		/*Aqui se ingresan los datos a la base de datos*/
+		finish{
+			async
+				for(var i:Long = 0 ; i < 480 ; i++)
+					total(0,i) = array1(i);
+			async
+				for(var i:Long = 0 ; i < 480 ; i++)
+					total(1,i) = array2(i);
+			async	
+				for(var i:Long = 0 ; i < 480 ; i++)
+					total(2,i) = array3(i);
+			async	
+				for(var i:Long = 0 ; i < 480 ; i++)
+					total(3,i) = array4(i);			
+		}
+		
+		
+		/*Paso 4*/
+		for(var i:Long = 0 ; i < 4 ; i++)
+			for(var j:Long = 0 ; j < 480 ; j++)
+				promedio += total(i,j);
+		promedio/=1920;
+		/*Finalmente se calcula el riesgo*/
+		Console.OUT.println("Promedio :" + promedio);
+		evalRisk(promedio);
+	}
+}

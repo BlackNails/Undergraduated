@@ -1,0 +1,58 @@
+import x10.array.*;
+import x10.util.Random;
+import x10.util.Timer;
+
+public class dados {
+	
+	static val array1 = new Array_1[Long](5000);
+	static val array2 = new Array_1[Long](5000);
+	static val suma = new Array_1[Long](5000);
+	
+	static val r =  new Random();
+	
+    public static def main(args: Rail[String]) {
+    	val prob = new Array_1[Double](13);
+    	
+    	var sum:Long;
+    	val N:Long = 5000;
+    	val begin:Double;
+    	val end:Double;
+    	val timer = new Timer();
+
+    	begin = timer.nanoTime();
+    	
+    	finish async{
+    		val c1 = Clock.make();
+    		async clocked(c1){
+    			for(var i:Long = 0; i < N; i++){
+    		 		array1(i) = r.nextLong(6)+1;
+    		 		Clock.advanceAll();
+    			}
+    		}
+    	
+    		async clocked(c1){
+    			for(var i:Long = 0; i < N; i++){
+    				array2(i) = r.nextLong(6)+1;
+    				Clock.advanceAll();
+    			}
+    		}
+    	}
+    	
+    	end = timer.nanoTime();
+    	
+    	Console.OUT.println("Tiempo : "+(begin-end)/1000000000 + "s");
+    	
+    	for(var i:Long = 0;i<N;i++){
+    		suma(i) = array1(i)+array2(i);
+    		prob(suma(i))++;
+    	}
+    	
+    	for(var i:Long = 2 ; i < 13 ; i++){
+    		prob(i)*=100;
+    		prob(i)/=N;
+    	}
+    	for(var i:Long = 2;i<13;i++){
+    		Console.OUT.println("probabilidad " +i+": "+prob(i));
+    	}
+    }
+}

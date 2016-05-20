@@ -1,0 +1,95 @@
+import x10.array.*;
+import x10.util.Random;
+import x10.util.Timer;
+
+public class Compras{
+	/*Arrays*/
+	static val array1 = new Array_1[Long](200);
+	static val array2 = new Array_1[Long](200);
+	static val array3 = new Array_1[Long](200);
+	static val array4 = new Array_1[Long](200);
+	
+	/*Suma de cada tienda*/
+	static val preSuma = new Array_1[Long](4);
+	//static var suma:Long ;
+
+	static val r =  new Random();
+	
+	/*Genera un retraso aleatorio*/
+	static def delay(){
+		val r = new Random();
+		val arrayVal = new Rail[Long](4,(i:long)
+				=>(r.nextLong(4)+1)*8000000);
+		val N = r.nextLong(4);
+		/*Cuenta un numero aleatorio grande*/
+		for(var i:Long=0 ; i < arrayVal(N);i++){
+			
+		}
+	}
+    public static def main(args: Rail[String]) {
+	    val timer = new Timer();
+	    var begin:Double;
+	    var end:Double;
+	    var suma:Long = 0;
+	    /*Finish para imprimir al final*/
+	    finish{
+	    	/*Procesos no estan sincronizados*/
+		   	async{
+		   		for(var i:Long = 0; i < 50; i++){
+		   			/*El valor maximo de la compra es 200*/
+		    		array1(i) = r.nextLong(200)+1;
+		    		delay();
+		    		atomic{
+		    		Console.OUT.println("Comprador1"+
+		    				"valor :"+array1(i));
+		    		preSuma(0) += array1(i);
+		    		suma+= array1(i);}
+		   		}    	
+		   	}
+	   	
+		    async{
+		   		for(var i:Long = 0; i < 150; i++){
+		   			array2(i) = r.nextLong(200)+1;
+		   			delay();
+		   			atomic{
+		   			Console.OUT.println("Comprador2"+
+		   					"valor :"+array2(i));
+		   			preSuma(1) += array2(i);
+		   			suma+=array2(i);}
+		   			
+		   		}
+		   	}
+		    async{	
+		   		for(var i:Long = 0; i < 80; i++){
+		    		array3(i) = r.nextLong(200)+1;
+		    		delay();
+		    		atomic{
+		    		Console.OUT.println("Comprador3"+
+		    				"valor :"+array3(i));
+		    		preSuma(2) += array3(i);
+		    		suma+=array3(i);}
+		    	}
+		    }
+		    async{
+		    	for(var i:Long = 0; i < 150; i++){
+		    		array4(i) = r.nextLong(200)+1;
+		    		delay();
+		    		atomic{
+		    		Console.OUT.println("Comprador4" +
+		    				"valor :"+ array4(i));
+		    		preSuma(3) += array4(i);
+		    		suma+=array4(i);}
+		    	}    	
+		    }
+	    }
+	    for(var i:Long = 0 ; i < 4; i++)
+	    	Console.OUT.println("Tienda " + i + ": "
+	    			+preSuma(i));
+	    Console.OUT.println("Comparacion\n
+	    ------------------------------");
+	    /*Comparacion suma anterior con suma total*/
+	    Console.OUT.println("Suma Total : " + suma);
+	       
+	 }
+  	
+}
