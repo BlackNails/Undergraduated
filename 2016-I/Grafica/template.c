@@ -3,7 +3,8 @@
 
 #include <GL/glut.h>
 
-int width = 800 , height = 600;
+#define width  800
+#define height 600
 int move_unit = 5;
 int posX = width/2 , posY = height/2;
 
@@ -12,13 +13,17 @@ void init(){
 
     glClearColor(1.0, 1.0, 1.0, 0.0); // white background
     glMatrixMode(GL_PROJECTION); // projection matrix
-    glMatrixMode(GL_MODELVIEW);  
+    glMatrixMode(GL_MODELVIEW);
     gluOrtho2D(0.0, width, 0.0, height);
-    
+
 }
 
 void display(){
   /*All the drawing goes here*/
+  glClear(GL_COLOR_BUFFER_BIT);// // clear the window
+
+  //end
+  glutSwapBuffers(); // make it all visible
 }
 
 void keyboardEvents(int key, int x, int y){
@@ -50,18 +55,17 @@ void keyboardEvents(int key, int x, int y){
 
 int main(int argc, char ** argv){
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+
     glutInitWindowPosition(0,0); // window position
     glutInitWindowSize(width, height); // window size
-    
+
     glutCreateWindow(" Window Title ");
-    
+
     init();
-    
-    glutDisplayFunc(display); 
+
+    glutDisplayFunc(display);
     glutSpecialFunc(keyboardEvents); // keyboard events
 
     glutMainLoop();
 }
-
