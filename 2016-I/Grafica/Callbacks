@@ -1,0 +1,47 @@
+
+int main(int argc, char** argv)
+{
+...
+glutDisplayFunc(myDraw); // set up the callbacks
+glutReshapeFunc(myReshape);
+glutMouseFunc(myMouse);
+glutKeyboardFunc(myKeyboard);
+glutTimerFunc(20, myTimeOut, 0); // timer in 20/1000 seconds
+...
+}
+
+void myDraw() { // called to display window
+// ...insert your drawing code here ...
+glutSwapBuffers(); // make the new stuff visible
+}
+void myReshape(int w, int h) { // called if reshaped
+windowWidth = w; // save new window size
+windowHeight = h;
+// ...may need to update the projection ...
+glutPostRedisplay(); // request window redisplay
+}
+void myTimeOut(int id) { // called if timer event
+// ...advance the state of animation incrementally...
+glutTimerFunc(20, myTimeOut, 0); // schedule next timer event
+}
+
+void myMouse(int b, int s, int x, int y) {
+switch (b) { // b indicates the button
+case GLUT_LEFT_BUTTON:
+if (s == GLUT_DOWN) // button pressed
+// ...
+else if (s == GLUT_UP) // button released
+// ...
+break;
+// ... // other button events
+}
+}
+// called if keyboard key hit
+void myKeyboard(unsigned char c, int x, int y) {
+switch (c) { // c is the key that is hit
+case ’q’: // ’q’ means quit
+exit(0);
+break;
+// ... // other keyboard events
+}
+}
