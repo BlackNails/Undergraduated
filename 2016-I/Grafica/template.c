@@ -20,13 +20,13 @@ void init(){
 
 void display(){
   /*All the drawing goes here*/
-  glClear(GL_COLOR_BUFFER_BIT);// // clear the window
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //end
   glutSwapBuffers(); // make it all visible
 }
 
-void keyboardEvents(int key, int x, int y){
+void keyboardEvents(unsigned char key, int x, int y){
 
   switch(key){
     case GLUT_KEY_RIGHT:
@@ -44,7 +44,9 @@ void keyboardEvents(int key, int x, int y){
     case GLUT_KEY_DOWN:
       posY-=move_unit;
       break;
-
+    case 'q':
+      exit(0);
+      break;
     default:
       break;
   }
@@ -65,7 +67,7 @@ int main(int argc, char ** argv){
     init();
 
     glutDisplayFunc(display);
-    glutSpecialFunc(keyboardEvents); // keyboard events
+    glutKeyboardFunc(keyboardEvents); // keyboard events
 
     glutMainLoop();
 }
